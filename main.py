@@ -3,8 +3,8 @@
 from time import sleep, ctime
 from inspect import signature
 
-__version__ = 'a1.1.1'
-__date__ = '24.02.2025'
+__version__ = 'a1.1.2'
+__date__ = '28.02.2025'
 
 audit = ''
 
@@ -13,6 +13,7 @@ directoryList = {
         'os': {
             'help.txt': 'just a help menu',
             'text.txt': 'text file',
+            'code.py': 'print("Hello World!")'
         },
     },
 }
@@ -91,7 +92,6 @@ def ctree():
     temp_path = directoryList
     for i in current_path:
         try:
-            print(f'i: {i}\ntemp_path {temp_path}\ntemp_path[i]: {temp_path[i]}\n')
             temp_path = temp_path[i]
         except KeyError:
             print(f"This directory is empty.")
@@ -99,14 +99,35 @@ def ctree():
     print('; '.join(list(temp_path.keys())))
 
 def comp(path):
-    temp_file = directoryList
-    for i in current_path:
-        try:
-            print(f'i: {i}\ntemp_path {temp_path}\ntemp_path[i]: {temp_path[i]}\n')
-            temp_path = temp_path[i]
-        except KeyError:
-            print(f"This directory is empty.")
-            return
+    global directoryList, current_path, audit
+
+    parts = path.split('/')
+    temp_path = current_path.copy()
+
+    for part in parts:
+        if part == '..':
+            if len(temp_path) > 0:
+                temp_path.pop()
+        elif part == '.':
+            continue
+        else:
+            current_level = directoryList
+            for p in temp_path:
+                current_level = current_level[p]
+
+            if '.' in part and part.split('.')[0] and part.split('.')[1]:
+                if part not in current_level:
+                    print(f"File '{part}' doesn't exist")
+                else:
+                    while True:
+                        exec(current_level[part], globals())
+                        return
+                return
+
+            temp_path.append(part)
+
+    current_path = temp_path
+
 commandList = {
     'cowsay': cowsay,
     'comp': comp,
