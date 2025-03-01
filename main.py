@@ -11,12 +11,14 @@ audit = ''
 directoryList = {
     'root': {
         'os': {
-            'help.txt': 'just a help menu',
+            'help.txt': 'just a help menu'},
+        'prg': {
             'text.txt': 'text file',
-            'code.py': 'print("Hello World!")'
+            'hello.py': 'print("Hello World!")'
+            }
         },
-    },
 }
+
 
 current_path = []
 
@@ -128,6 +130,9 @@ def comp(path):
 
     current_path = temp_path
 
+def getvar(var):
+    print(f'{globals()[var]}')
+
 commandList = {
     'cowsay': cowsay,
     'comp': comp,
@@ -135,7 +140,7 @@ commandList = {
     'date': lambda: print(f'Today is {ctime()}'),
     'goto': goto,
     'tree': tree,
-    'version': lambda: print(f'{__version__} {__date__}'),
+    '--': getvar,
 }
 
 for i in range(0, 7):
