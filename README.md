@@ -8,4 +8,4 @@ Pseudo-OS, based on Python. Work with terminal like Linux.
 `date` - Current date\
 `goto` - Go to the firectory or file by path\
 `tree` - All direstories\
-`version` - Current version\
+`--` - Outputs any global var\
